@@ -4,10 +4,14 @@ import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-
 import java.util.List;
 
-public class MakeAppointment extends PageObject  {
+
+import static base.TestBase.prop;
+
+
+public class MakeAppointment extends PageObject{
+
     @FindBy(css = "#combo_facility")
     public WebElementFacade facilityCombo;
 
@@ -36,6 +40,18 @@ public class MakeAppointment extends PageObject  {
         SelectOptions.in(programRadio, program);
         visiteDate.type(visitDate);
         commentTxt.type(comment);
+        bookBtn.click();
+    }
+    public void fullMakeAppointmentByConfig(){
+        element(readmissionChk).waitUntilVisible();
+        Select elementCountry = new Select(facilityCombo);
+        elementCountry.selectByVisibleText(prop.getProperty("facility"));
+        if (Boolean.parseBoolean(prop.getProperty("readmission"))) {
+            readmissionChk.click();
+        }
+        SelectOptions.in(programRadio, prop.getProperty("program"));
+        visiteDate.type(prop.getProperty("visitDate"));
+        commentTxt.type(prop.getProperty("comment"));
         bookBtn.click();
     }
 }

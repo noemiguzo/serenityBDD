@@ -1,11 +1,18 @@
 package pageobject;
 
+
+import base.TestBase;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.pages.PageObject;
 import org.junit.Assert;
 import org.openqa.selenium.support.FindBy;
 
+
+import static base.TestBase.prop;
+
+
 public class AppointmentConfirmation extends PageObject {
+    TestBase testBase;
     @FindBy(id = "facility")
     public WebElementFacade facilityTxt;
 
@@ -37,5 +44,25 @@ public class AppointmentConfirmation extends PageObject {
         Assert.assertEquals(actualProgram, program);
         Assert.assertEquals(actualVisitDate, visitDate);
         Assert.assertEquals(actualComment, comment);
+    }
+
+
+    public void validateAppointmentByConfig() {
+        element(facilityTxt).waitUntilVisible();
+        String actualFacility = facilityTxt.getText();
+        String actualReadmission = readmissionTxt.getText();
+        String actualProgram = programTxt.getText();
+        String actualVisitDate = dateTxt.getText();
+        String actualComment = commentTxt.getText();
+
+        String readmission="No";
+        if (Boolean.parseBoolean(prop.getProperty("readmission"))) {
+            readmission="Yes";
+        }
+        Assert.assertEquals(actualFacility, prop.getProperty("facility"));
+        Assert.assertEquals(actualReadmission, readmission);
+        Assert.assertEquals(actualProgram,prop.getProperty("program"));
+        Assert.assertEquals(actualVisitDate, prop.getProperty("visitDate"));
+        Assert.assertEquals(actualComment, prop.getProperty("comment"));
     }
 }

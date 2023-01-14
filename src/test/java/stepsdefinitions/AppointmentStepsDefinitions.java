@@ -1,4 +1,5 @@
 package stepsdefinitions;
+import base.TestBase;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,6 +17,9 @@ public class AppointmentStepsDefinitions {
     Login login;
 
     @Steps
+    TestBase testBase;
+
+    @Steps
     MakeAppointment makeAppointment;
     @Steps
     AppointmentConfirmation appointmentConfirmation;
@@ -23,6 +27,7 @@ public class AppointmentStepsDefinitions {
     public void ElUsuarioIngresaAMakeAppointmentPage() {
         home.open();
         home.clickAppointment();
+
     }
     @And("login to make appointment")
     public void loginToMakeAppointment() {
@@ -32,8 +37,20 @@ public class AppointmentStepsDefinitions {
     public void ingresarAppoinmentDatosFacilityReadmissionProgramVisitDateYComment(String facility,String readmission, String program, String visitDate, String comment) {
         makeAppointment.fullMakeAppointment(facility,readmission,program,visitDate,comment);
     }
-    @Then("^varificar appointment datos (.*), (.*), (.*), (.*) y (.*)$")
-    public void varificarAppointmentDatosFacilityReadmissionProgramVisitDateYComment(String facility,String readmission, String program, String visitDate, String comment)  {
+    @Then("^verificar appointment datos (.*), (.*), (.*), (.*) y (.*)$")
+    public void verificarAppointmentDatosFacilityReadmissionProgramVisitDateYComment(String facility,String readmission, String program, String visitDate, String comment)  {
         appointmentConfirmation.validateAppointment(facility,readmission,program,visitDate,comment);
     }
+
+    @Then("verificar appointment confirmation reading config properties")
+    public void verificarAppointmentConfirmationReadingConfigProperties() {
+        appointmentConfirmation.validateAppointmentByConfig();
+    }
+
+    @When("registrar appointment by config properties")
+    public void registrarAppointmentByConfigProperties() {
+        testBase = new TestBase();
+        makeAppointment.fullMakeAppointmentByConfig();
+    }
+
 }
